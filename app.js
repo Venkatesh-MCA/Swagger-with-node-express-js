@@ -7,6 +7,7 @@ var logger = require('morgan');
 const connectDB = require('./config/db')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/students');
+var dbbackup = require('./routes/dbbackup');
 dotenv.config({ path: './config/config.env' })
 connectDB()
 var app = express();
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/students', usersRouter);
+app.use('/dbbackup', dbbackup);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,7 +64,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 // Logging
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV == 'development') {
   app.use(morgan('dev'))
 }
 const PORT = process.env.PORT || 3000
